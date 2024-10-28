@@ -1,0 +1,63 @@
+<?php
+
+require_once "../Crud/connexion.php";
+
+$sql = "SELECT*FROM vehicule ORDER BY id DESC ";
+
+$requet = $cnx->prepare($sql);
+
+$requet->execute();
+
+$donnees = $requet->fetchAll();
+
+?>
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> VENTE_AUTO</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo">Vente_Auto</div>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Gestion_Auto</h1>
+        </header>
+        <section class="book-actions">
+            <a class="btn-add" href="nouveau_vehicule.php">Ajouter une voiture</a>
+            <input type="text" id="search" placeholder="Rechercher d'une voiture...">
+        </section>
+        <section class="book-list">
+            <table>
+                <thead>     
+                        <tr>
+                            <th>Id</th>
+                            <th>Model</th>
+                            <th>Nom</th>
+                            <th>Action</th>
+                        </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($donnees as $donnee): ?>
+                        <tr>
+                        <td><?= $donnee['id'] ?></td>
+                        <td><?= $donnee['model'] ?></td>
+                        <td><?= $donnee['nom'] ?></td>
+                        <td>
+                        <a class="btn-edit" href="modifier.php?id=<?=$donnee['id']?>">Modifier</a>
+                        <a class="btn-delete" href="delete.php?id=<?=$donnee['id']?>">supprimer</a>
+                        </td>
+                        <?php endforeach; ?>
+                        </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+</html>
